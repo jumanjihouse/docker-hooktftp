@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+. script/functions
+
 docker_rm() {
   cid=$1
   docker rm -f $cid &> /dev/null || :
@@ -9,7 +11,7 @@ docker_rm() {
 tftp_get() {
   host=$1
   file=$2
-  docker run --rm -v /tmp/:/home/user/ tftp $1 -c get $2
+  smitty docker run --rm -v /tmp/:/home/user/ tftp $1 -c get $2
 }
 
 echo
@@ -25,7 +27,7 @@ done
 
 echo
 echo "===> Start hooktftp server."
-docker run -d -p 69:69/udp -v $(pwd)/fixtures:/tftpboot:ro --name tftpd hooktftp-runtime
+smitty docker run -d -p 69:69/udp -v $(pwd)/fixtures:/tftpboot:ro --name tftpd hooktftp-runtime
 ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
 echo "Server is up at $ip"
 
@@ -46,4 +48,4 @@ tftp_get $ip non-existent-file
 
 echo
 echo "===> Show hooktftp server log."
-docker logs tftpd
+smitty docker logs tftpd

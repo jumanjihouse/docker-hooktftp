@@ -1,26 +1,28 @@
 #!/bin/bash
 set -e
 
+. script/functions
+
 echo
 echo "===> Build hooktftp inside a dev container and copy to /tmp."
 pushd src/alpine/builder
-docker build --rm -t hooktftp-builder .
-sudo rm -f /tmp/hooktftp
-docker run --rm -v /tmp:/tmp hooktftp-builder
+smitty docker build --rm -t hooktftp-builder .
+smitty sudo rm -f /tmp/hooktftp
+smitty docker run --rm -v /tmp:/tmp hooktftp-builder
 popd
 
 echo
 echo "===> Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/runtime
-cp -f /tmp/hooktftp .
-docker build --rm -t hooktftp-runtime .
-rm -f hooktftp
+smitty cp -f /tmp/hooktftp .
+smitty docker build --rm -t hooktftp-runtime .
+smitty rm -f hooktftp
 popd
 
 echo
 echo "===> Build a tiny tftp client image that we use to test."
 pushd src/alpine/client
-docker build --rm -t tftp .
+smitty docker build --rm -t tftp .
 popd
 
 echo
