@@ -5,6 +5,8 @@ Project URL: [https://github.com/jumanjihouse/hooktftp-runtime](https://github.c
 
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
 
+Build status (master branch): [![wercker status](https://app.wercker.com/status/6c7ea5ad3b7bc9759361ce22fbe00a91/s/master "wercker status")](https://app.wercker.com/project/bykey/6c7ea5ad3b7bc9759361ce22fbe00a91)
+
 
 Overview
 --------
