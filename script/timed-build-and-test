@@ -1,0 +1,201 @@
+#!/bin/sh
+# core@ip-192-168-254-162 ~/docker-hooktftp $ script/timed-build-and-test
+# ===> Remove built images if they exist.
+# ---> Remove hooktftp-builder
+# ---> Remove hooktftp-runtime
+# ---> Remove tftp
+#
+# ===> Begin timed build-and-test cycle.
+#
+# ===> Build hooktftp inside a dev container and copy to /tmp.
+# ~/docker-hooktftp/src/alpine/builder ~/docker-hooktftp
+# Sending build context to Docker daemon 4.096 kB
+# Sending build context to Docker daemon
+# Step 0 : FROM gliderlabs/alpine
+#  ---> 8124b21b26e3
+# Step 1 : RUN apk update &&     apk add bzr git go
+#  ---> Running in 7827b960462e
+# fetch http://dl-4.alpinelinux.org/alpine/v3.1/main/x86_64/APKINDEX.tar.gz
+# v3.1.1-51-gc96aee6 [http://dl-4.alpinelinux.org/alpine/v3.1/main]
+# OK: 4860 distinct packages available
+# (1/21) Installing libbz2 (1.0.6-r3)
+# (2/21) Installing expat (2.1.0-r1)
+# (3/21) Installing libffi (3.0.13-r0)
+# (4/21) Installing gdbm (1.11-r0)
+# (5/21) Installing ncurses-terminfo-base (5.9-r3)
+# (6/21) Installing ncurses-libs (5.9-r3)
+# (7/21) Installing readline (6.3-r3)
+# (8/21) Installing sqlite-libs (3.8.7.4-r0)
+# (9/21) Installing python (2.7.9-r0)
+# (10/21) Installing bzr (2.6.0-r1)
+# (11/21) Installing run-parts (4.4-r0)
+# (12/21) Installing openssl (1.0.1k-r0)
+# (13/21) Installing lua5.2-libs (5.2.3-r0)
+# (14/21) Installing lua5.2 (5.2.3-r0)
+# (15/21) Installing lua5.2-posix (32-r1)
+# (16/21) Installing ca-certificates (20141019-r0)
+# (17/21) Installing libssh2 (1.4.3-r0)
+# (18/21) Installing curl (7.39.0-r0)
+# (19/21) Installing pcre (8.36-r1)
+# (20/21) Installing git (2.2.1-r0)
+# (21/21) Installing go (1.3.3-r1)
+# Executing busybox-1.22.1-r14.trigger
+# Executing ca-certificates-20141019-r0.trigger
+# OK: 196 MiB in 36 packages
+#  ---> 113b1fc89385
+# Removing intermediate container 7827b960462e
+# Step 2 : RUN adduser -D user
+#  ---> Running in 30e36baff60c
+#  ---> 8338405c01c8
+# Removing intermediate container 30e36baff60c
+# Step 3 : COPY build.sh /home/user/
+#  ---> 96df47bbc8eb
+# Removing intermediate container 1ff588a7a9d0
+# Step 4 : USER user
+#  ---> Running in d53b5535807e
+#  ---> dd4197ef5050
+# Removing intermediate container d53b5535807e
+# Step 5 : ENTRYPOINT /home/user/build.sh
+#  ---> Running in 35a8fee0e989
+#  ---> f8e98e32a9c3
+# Removing intermediate container 35a8fee0e989
+# Successfully built f8e98e32a9c3
+# ~/docker-hooktftp
+#
+# ===> Build a tiny runtime image with hooktftp static binary.
+# ~/docker-hooktftp/src/alpine/runtime ~/docker-hooktftp
+# Sending build context to Docker daemon 6.882 MB
+# Sending build context to Docker daemon
+# Step 0 : FROM gliderlabs/alpine
+#  ---> 8124b21b26e3
+# Step 1 : RUN apk update &&     apk add ca-certificates
+#  ---> Running in f73ff1378628
+# fetch http://dl-4.alpinelinux.org/alpine/v3.1/main/x86_64/APKINDEX.tar.gz
+# v3.1.1-51-gc96aee6 [http://dl-4.alpinelinux.org/alpine/v3.1/main]
+# OK: 4860 distinct packages available
+# (1/6) Installing run-parts (4.4-r0)
+# (2/6) Installing openssl (1.0.1k-r0)
+# (3/6) Installing lua5.2-libs (5.2.3-r0)
+# (4/6) Installing lua5.2 (5.2.3-r0)
+# (5/6) Installing lua5.2-posix (32-r1)
+# (6/6) Installing ca-certificates (20141019-r0)
+# Executing busybox-1.22.1-r14.trigger
+# Executing ca-certificates-20141019-r0.trigger
+# OK: 7 MiB in 21 packages
+#  ---> 58f4f1d560f2
+# Removing intermediate container f73ff1378628
+# Step 2 : COPY hooktftp /usr/bin/
+#  ---> da77c3242f97
+# Removing intermediate container 00f517ccc360
+# Step 3 : COPY hooktftp.yml /etc/hooktftp/hooktftp.yml
+#  ---> 340c09760371
+# Removing intermediate container 47b841e4311a
+# Step 4 : VOLUME /etc/hooktftp
+#  ---> Running in cda510d39018
+#  ---> 9dd2fc5c1445
+# Removing intermediate container cda510d39018
+# Step 5 : RUN mkdir /tftpboot
+#  ---> Running in d404496710e0
+#  ---> 4cf1f8f11d73
+# Removing intermediate container d404496710e0
+# Step 6 : VOLUME /tftpboot
+#  ---> Running in 123a67cb0df1
+#  ---> cba1243e5528
+# Removing intermediate container 123a67cb0df1
+# Step 7 : RUN adduser -D hooktftp
+#  ---> Running in d6a90662ad17
+#  ---> 608db7a78bb5
+# Removing intermediate container d6a90662ad17
+# Step 8 : ENTRYPOINT /usr/bin/hooktftp /etc/hooktftp/hooktftp.yml
+#  ---> Running in 054b483c51b8
+#  ---> 45e2517d915c
+# Removing intermediate container 054b483c51b8
+# Successfully built 45e2517d915c
+# ~/docker-hooktftp
+#
+# ===> Build a tiny tftp client image that we use to test.
+# ~/docker-hooktftp/src/alpine/client ~/docker-hooktftp
+# Sending build context to Docker daemon 3.072 kB
+# Sending build context to Docker daemon
+# Step 0 : FROM gliderlabs/alpine
+#  ---> 8124b21b26e3
+# Step 1 : RUN apk update && apk add tftp-hpa
+#  ---> Using cache
+#  ---> 055a7111be38
+# Step 2 : RUN adduser -D user
+#  ---> Running in 945c046f2e14
+#  ---> 554ec21a111b
+# Removing intermediate container 945c046f2e14
+# Step 3 : USER user
+#  ---> Running in 9a8e69946192
+#  ---> b887fdd191c7
+# Removing intermediate container 9a8e69946192
+# Step 4 : VOLUME /home/user
+#  ---> Running in d86cbf53d6a2
+#  ---> ba5d16691870
+# Removing intermediate container d86cbf53d6a2
+# Step 5 : WORKDIR /home/user
+#  ---> Running in f6d0310afe61
+#  ---> daaacaa64ac5
+# Removing intermediate container f6d0310afe61
+# Step 6 : ENTRYPOINT /usr/bin/tftp
+#  ---> Running in 6b83ce2bdb8e
+#  ---> 7ee01e1b9b9f
+# Removing intermediate container 6b83ce2bdb8e
+# Successfully built 7ee01e1b9b9f
+# ~/docker-hooktftp
+#
+# ===> Show image sizes.
+# tftp                      latest              7ee01e1b9b9f        1 seconds ago        5.77 MB
+# hooktftp-runtime          latest              45e2517d915c        4 seconds ago        14.15 MB
+# hooktftp-builder          latest              f8e98e32a9c3        About a minute ago   400 MB
+#
+# WARN: you should docker tag the runtime image
+# WARN: you can safely remove the other images
+#
+#
+# ===> Clean up from previous test runs.
+#
+# ===> Start hooktftp server.
+# 79e40a3a5713684a3bb3541217cb4da4f983a54c5870bdf2ead984b4b4335b44
+# Server is up at 172.17.3.160
+#
+# ===> Test that hooktftp binary is owned by root:root
+# OK
+#
+# ===> Test that we can download a file via tftp client.
+# ---> menu
+# Sample pxe menu
+#
+# ---> non-existent-file
+# Error code 1: open /tftpboot/non-existent-file: no such file or directory
+#
+# ===> Show hooktftp server log.
+# Reading hooks from /etc/hooktftp/hooktftp.yml
+# Compiling hook { file ^.*$ /tftpboot/$0}
+# Listening on 69
+# Dropped privileges to &{1000 1000 hooktftp Linux User /home/hooktftp}
+# GET menu blocksize 512 from 172.17.3.162:47312
+# Executing hook: &{ file ^.*$ /tftpboot/$0} menu -> /tftpboot/menu
+# Sent 16 bytes in 333.542us 0.045748 MB/s
+# GET non-existent-file blocksize 512 from 172.17.3.163:41780
+# Executing hook: &{ file ^.*$ /tftpboot/$0} non-existent-file -> /tftpboot/non-existent-file
+#
+# real    1m55.339s
+# user    0m0.127s
+# sys     0m0.180s
+
+echo "===> Remove built images if they exist."
+images="
+  hooktftp-builder
+  hooktftp-runtime
+  tftp
+"
+for img in $images; do
+  echo "---> Remove $img"
+  docker rmi -f $img &> /dev/null || :
+done
+
+echo
+echo "===> Begin timed build-and-test cycle."
+time (script/build && script/test)

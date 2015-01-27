@@ -1,0 +1,8 @@
+---
+
+port: 69
+user: hooktftp
+hooks:
+  - type: file
+    regexp: ^.*$
+    template: /tftpboot/$0

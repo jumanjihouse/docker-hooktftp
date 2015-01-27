@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+echo
+echo "===> Build hooktftp inside a dev container and copy to /tmp."
+pushd src/alpine/builder
+docker build --rm -t hooktftp-builder .
+sudo rm -f /tmp/hooktftp
+docker run --rm -v /tmp:/tmp hooktftp-builder
+popd
+
+echo
+echo "===> Build a tiny runtime image with hooktftp static binary."
+pushd src/alpine/runtime
+cp -f /tmp/hooktftp .
+docker build --rm -t hooktftp-runtime .
+rm -f hooktftp
+popd
+
+echo
+echo "===> Build a tiny tftp client image that we use to test."
+pushd src/alpine/client
+docker build --rm -t tftp .
+popd
+
+echo
+echo "===> Show image sizes."
+docker images | egrep '^(hooktftp|tftp)\b'
+
+
+echo
+echo "WARN: you should docker tag the runtime image"
+echo "WARN: you can safely remove the other images"
+echo
