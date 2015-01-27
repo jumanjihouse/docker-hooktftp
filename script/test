@@ -32,7 +32,7 @@ echo "Server is up at $ip"
 echo
 echo "===> Test that hooktftp binary is owned by root:root"
 uidgid=$(docker run --rm --entrypoint /bin/sh hooktftp-runtime -c "stat -c %u:%g /usr/bin/hooktftp" | tr -d '=r')
-test '0:0' == $uidgid && echo OK
+test '0:0' = "$uidgid" && echo OK
 
 echo
 echo "===> Test that we can download a file via tftp client."
