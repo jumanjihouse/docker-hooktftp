@@ -84,6 +84,12 @@ You can push the built image to a private docker registry:
     docker push registry_id/your_id/hooktftp
 
 
+Contribute
+----------
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) in this repo.
+
+
 License
 -------
 
