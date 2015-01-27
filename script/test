@@ -22,7 +22,7 @@ cids="
   tftpd
 "
 for cid in $cids; do
-  docker_rm $cid
+  [ "$WERCKER" = "true" ] || docker_rm $cid
 done
 
 echo
