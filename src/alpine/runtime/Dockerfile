@@ -31,6 +31,9 @@ RUN apk update && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del sl_plus_deps
 
+# Add safe defaults that can be overriden easily.
+COPY pxelinux.cfg /tftpboot/pxelinux.cfg/
+
 # Do not track further change to /tftpboot.
 VOLUME /tftpboot
 

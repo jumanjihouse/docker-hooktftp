@@ -74,6 +74,19 @@ inside the container. You can use the default config provided
 [inside the image](src/alpine/runtime/hooktftp.yml) or provide
 your own at runtime.
 
+The published image contains *just enough* files to provide
+a base tftpd to PXE-boot your hosts to a simple menu.
+The [simple menu](src/alpine/runtime/pxelinux.cfg/F1.msg) and
+[pxelinux.cfg/default](src/alpine/runtime/pxelinux.cfg/default)
+only allow to skip PXE.
+Therefore you probably want to override the built-in menu.
+
+Run a container with your own `pxelinux.cfg` files:
+
+    docker run -d -p 69:69/udp \
+      -v /path/to/your/pxelinux.cfg:/tftpboot/pxelinux.cfg:ro \
+      jumanjiman/hooktftp
+
 Run a container with default config and your data:
 
     docker run -d -p 69:69/udp \
@@ -85,6 +98,14 @@ Run a container with your own config and your own data:
     docker run -d -p 69:69/udp \
       -v /path/to/your/files:/tftpboot:ro \
       -v /path/to/your/config/dir:/etc/hooktftp:ro \
+      jumanjiman/hooktftp
+
+Use multiple volumes to add site-local boot files and menus
+in addition to the built-in syslinux files:
+
+    docker run -d -p 69:69/udp \
+      -v /path/to/your/pxelinux.cfg:/tftpboot/pxelinux.cfg:ro \
+      -v /path/to/your/bootfiles:/tftpboot/site:ro \
       jumanjiman/hooktftp
 
 

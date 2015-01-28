@@ -50,6 +50,14 @@ test -s /tmp/pxelinux.0
 echo
 echo "---> non-existent-file"
 tftp_get $ip non-existent-file
+echo
+echo "---> pxelinux.cfg/default"
+tftp_get $ip pxelinux.cfg/default
+test -s /tmp/default
+echo
+echo "---> pxelinux.cfg/F1.msg"
+tftp_get $ip pxelinux.cfg/F1.msg
+test -s /tmp/F1.msg
 
 echo
 echo "===> Show hooktftp server log."
