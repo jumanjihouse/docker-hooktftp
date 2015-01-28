@@ -117,6 +117,17 @@ in addition to the built-in syslinux files:
       jumanjiman/hooktftp
 
 
+### Use systemd for automatic startup
+
+Review and potentially modify the sample systemd unit file at
+[`systemd/hooktftp.service`](systemd/hooktftp.service), then run:
+
+    sudo cp systemd/hooktftp.service /etc/systemd/system/
+    sudo systemctl daemon-reload
+    sudo systemctl start hooktftp
+    sudo systemctl enable hooktftp
+
+
 ### Build
 
 The build script(s) produce multiple artifacts:
