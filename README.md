@@ -14,7 +14,7 @@ This source is used to build an image for
 
 The primary artifact is a docker image with the `hooktftp` static binary
 and a default, minimal configuration.
-The runtime image is quite small (roughly 14 MB) since it is based on
+The runtime image is quite small (roughly 18 MB) since it is based on
 [Alpine Linux](https://www.alpinelinux.org/).
 I may support other userspaces in the future.
 
@@ -56,6 +56,17 @@ The runtime image is published as `jumanjiman/hooktftp`.
     docker pull jumanjiman/hooktftp
 
 
+### List files in the image
+
+The image contains the typical syslinux, efi, and pxelinux files
+from **syslinux 6.0.3** at `/tftpboot/`.
+List them with:
+
+    docker run --rm -t \
+      --entrypoint=/bin/sh \
+      jumanjiman/hooktftp -c "find /tftpboot -type f"
+
+
 ### Configure and run
 
 The container reads the config file `/etc/hooktftp/hooktftp.yml`
@@ -84,7 +95,7 @@ The build script(s) produce multiple artifacts:
 | Image Tag        | Size   | Purpose                        |
 | :--------------- | -----: | :----------------------------- |
 | hooktftp-builder | 400 MB | compile hooktftp static binary |
-| hooktftp-runtime |  14 MB | run hooktftp as a service      |
+| hooktftp-runtime |  18 MB | run hooktftp as a service      |
 | tftp             |   6 MB | test the runtime container     |
 
 On a docker host, run:

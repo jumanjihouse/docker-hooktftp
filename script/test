@@ -17,6 +17,7 @@ tftp_get() {
 echo
 echo "===> Clean up from previous test runs."
 sudo rm -f /tmp/menu
+sudo rm -f /tmp/pxelinux.0
 cids="
   tftp
   tftpd
@@ -27,7 +28,7 @@ done
 
 echo
 echo "===> Start hooktftp server."
-smitty docker run -d -p 69:69/udp -v $(pwd)/fixtures:/tftpboot:ro --name tftpd hooktftp-runtime
+smitty docker run -d -p 69:69/udp -v $(pwd)/fixtures:/tftpboot/site:ro --name tftpd hooktftp-runtime
 ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
 echo "Server is up at $ip"
 
@@ -37,11 +38,15 @@ uidgid=$(docker run --rm --entrypoint /bin/sh hooktftp-runtime -c "stat -c %u:%g
 test '0:0' = "$uidgid" && echo OK
 
 echo
-echo "===> Test that we can download a file via tftp client."
-echo "---> menu"
-tftp_get $ip menu
+echo "===> Test that we can download files via tftp client."
+echo "---> site/menu"
+tftp_get $ip site/menu
 test -r /tmp/menu
 grep 'Sample pxe menu' /tmp/menu
+echo
+echo "---> pxelinux.0"
+tftp_get $ip pxelinux.0
+test -s /tmp/pxelinux.0
 echo
 echo "---> non-existent-file"
 tftp_get $ip non-existent-file
