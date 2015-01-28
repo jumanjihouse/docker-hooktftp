@@ -15,3 +15,24 @@ build:
     - script:
         name: test the runtime image
         code: script/test
+    - script:
+        name: tag the runtime image
+        code: |
+          docker tag hooktftp-runtime:latest jumanjiman/hooktftp:${WERCKER_GIT_COMMIT:0:7}
+          docker tag hooktftp-runtime:latest jumanjiman/hooktftp:latest
+    - zvelo/docker-save:
+        image: jumanjiman/hooktftp:${WERCKER_GIT_COMMIT:0:7}
+    - zvelo/docker-save:
+        image: jumanjiman/hooktftp:latest
+deploy:
+  steps:
+    - zvelo/docker-hub-push:
+        image: jumanjiman/hooktftp:${WERCKER_GIT_COMMIT:0:7}
+        email: ${email}
+        password: ${password}
+        username: jumanjiman
+    - zvelo/docker-hub-push:
+        image: jumanjiman/hooktftp:latest
+        email: ${email}
+        password: ${password}
+        username: jumanjiman

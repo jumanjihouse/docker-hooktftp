@@ -5,8 +5,6 @@ Project URL: [https://github.com/jumanjihouse/hooktftp-runtime](https://github.c
 
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
 
-Build status (master branch): [![wercker status](https://app.wercker.com/status/6c7ea5ad3b7bc9759361ce22fbe00a91/s/master "wercker status")](https://app.wercker.com/project/bykey/6c7ea5ad3b7bc9759361ce22fbe00a91)
-
 
 Overview
 --------
@@ -25,6 +23,27 @@ tftpd image that contains *all the things* and a flexible tftpd
 image that contains *just enough* to combine with custom-built
 data containers or volumes an organization needs to bootstrap
 their infrastructure.
+
+
+Build integrity and docker tags
+-------------------------------
+
+Build status (master branch): [![wercker status](https://app.wercker.com/status/6c7ea5ad3b7bc9759361ce22fbe00a91/s/master "wercker status")](https://app.wercker.com/project/bykey/6c7ea5ad3b7bc9759361ce22fbe00a91)
+
+An unattended test harness runs the build script and acceptance tests.
+If all tests pass on master branch in the unattended test harness,
+wercker pushes the built image to the Docker hub.
+
+The CI scripts on wercker apply two tags before pushing to docker hub:
+
+* `jumanjiman/hooktftp:latest`: latest successful build on master branch
+* `jumanjiman/hooktftp:<git-hash>`: a particular build on master branch
+
+Therefore you can `docker pull` a specific tag if you don't want *latest*.
+
+The build script adds a file to the image: `/root/wercker-build-url`.
+This file contains the HTTPS URL for the wercker build of the image and
+enables you to correlate a particular image to its tests on wercker.
 
 
 How-to

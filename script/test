@@ -49,3 +49,7 @@ tftp_get $ip non-existent-file
 echo
 echo "===> Show hooktftp server log."
 smitty docker logs tftpd
+
+echo
+echo "===> Show wercker build URL."
+smitty docker run --rm --entrypoint /bin/sh hooktftp-runtime -c "cat /root/wercker-build-url"
