@@ -67,6 +67,14 @@ List them with:
       jumanjiman/hooktftp -c "find /tftpboot -type f"
 
 
+### Load NetFilter modules
+
+Add helpers to track connections:
+
+    sudo modprobe nf_conntrack_tftp
+    sudo modprobe nf_nat_tftp
+
+
 ### Configure and run
 
 The container reads the config file `/etc/hooktftp/hooktftp.yml`
