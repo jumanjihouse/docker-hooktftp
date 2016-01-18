@@ -15,7 +15,6 @@ echo
 echo "===> Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/runtime
 smitty docker cp builder:/tmp/hooktftp .
-[ "$WERCKER" = "true" ] && echo $WERCKER_BUILD_URL > wercker-build-url
 smitty docker build --rm -t hooktftp-runtime .
 smitty rm -f hooktftp
 popd

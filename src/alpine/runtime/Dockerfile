@@ -8,9 +8,6 @@ RUN apk add --no-cache \
 # Add the static binary.
 COPY hooktftp /usr/bin/
 
-# Allow admin to tie image back to an automated build.
-COPY wercker-build-url /root/
-
 # Add a trivial config that can be overridden at runtime.
 COPY hooktftp.yml /etc/hooktftp/hooktftp.yml
 VOLUME /etc/hooktftp
