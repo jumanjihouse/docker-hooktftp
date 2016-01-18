@@ -1,7 +1,7 @@
 hooktftp in a container!
 ========================
 
-Project URL: [https://github.com/jumanjihouse/hooktftp-runtime](https://github.com/jumanjihouse/hooktftp-runtime)
+Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)
 
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
 
