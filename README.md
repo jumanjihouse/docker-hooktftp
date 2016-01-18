@@ -147,6 +147,12 @@ If you want to do a timed build-and-test, run:
 
     script/timed-build-and-test
 
+You can also test via the docker remote API if you have configured a remote docker host:
+
+    export DOCKER_HOST=tcp://<remote_ip>:<port>
+    script/build
+    script/test
+
 
 ### Publish to a private registry
 

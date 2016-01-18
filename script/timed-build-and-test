@@ -190,6 +190,7 @@ images="
   hooktftp-builder
   hooktftp-runtime
   tftp
+  fixtures
 "
 for img in $images; do
   echo "---> Remove $img"

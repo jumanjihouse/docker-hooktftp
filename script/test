@@ -11,24 +11,34 @@ docker_rm() {
 tftp_get() {
   host=$1
   file=$2
-  smitty docker run --rm -v /tmp/:/home/user/ tftp $1 -c get $2
+  smitty docker run --rm --volumes-from downloads tftp $1 -c get $2
 }
 
 echo
 echo "===> Clean up from previous test runs."
-sudo rm -f /tmp/menu
-sudo rm -f /tmp/pxelinux.0
 cids="
   tftp
   tftpd
+  downloads
+  fixtures
 "
 for cid in $cids; do
   [ "$WERCKER" = "true" ] || docker_rm $cid
 done
 
 echo
+echo "===> Create data container in which to download test files."
+smitty docker create --name downloads -v /home/user alpine:3.3 true
+# Ensure the tftp client user has permissions on the volume.
+smitty docker run --rm --volumes-from downloads alpine:3.3 chown -R 1000:1000 /home/user
+
+echo
+echo "===> Create data container for fixtures."
+smitty docker create --name fixtures hooktftp-fixtures true
+
+echo
 echo "===> Start hooktftp server."
-smitty docker run -d -p 69:69/udp -v $(pwd)/fixtures:/tftpboot/site:ro --name tftpd hooktftp-runtime
+smitty docker run -d -p 69:69/udp --volumes-from fixtures --name tftpd hooktftp-runtime
 ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
 echo "Server is up at $ip"
 
@@ -41,23 +51,22 @@ echo
 echo "===> Test that we can download files via tftp client."
 echo "---> site/menu"
 tftp_get $ip site/menu
-test -r /tmp/menu
-grep 'Sample pxe menu' /tmp/menu
+docker run --rm --volumes-from downloads alpine:3.3 test -r /home/user/menu
 echo
 echo "---> pxelinux.0"
 tftp_get $ip pxelinux.0
-test -s /tmp/pxelinux.0
+docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/pxelinux.0
 echo
 echo "---> non-existent-file"
 tftp_get $ip non-existent-file
 echo
 echo "---> pxelinux.cfg/default"
 tftp_get $ip pxelinux.cfg/default
-test -s /tmp/default
+docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/default
 echo
 echo "---> pxelinux.cfg/F1.msg"
 tftp_get $ip pxelinux.cfg/F1.msg
-test -s /tmp/F1.msg
+docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/F1.msg
 
 echo
 echo "===> Show hooktftp server log."

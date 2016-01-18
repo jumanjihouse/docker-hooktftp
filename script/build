@@ -7,18 +7,22 @@ echo
 echo "===> Build hooktftp inside a dev container and copy to /tmp."
 pushd src/alpine/builder
 smitty docker build --rm -t hooktftp-builder .
-smitty sudo rm -f /tmp/hooktftp
-smitty docker run --rm -v /tmp:/tmp hooktftp-builder
+smitty docker rm -f builder || :
+smitty docker run --name builder hooktftp-builder
 popd
 
 echo
 echo "===> Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/runtime
-smitty cp -f /tmp/hooktftp .
+smitty docker cp builder:/tmp/hooktftp .
 [ "$WERCKER" = "true" ] && echo $WERCKER_BUILD_URL > wercker-build-url
 smitty docker build --rm -t hooktftp-runtime .
 smitty rm -f hooktftp
 popd
+
+echo
+echo "===> Build a fixtures images that we use to test."
+smitty docker build --rm -t hooktftp-fixtures fixtures/
 
 echo
 echo "===> Build a tiny tftp client image that we use to test."
