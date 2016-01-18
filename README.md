@@ -153,6 +153,44 @@ You can also test via the docker remote API if you have configured a remote dock
     script/build
     script/test
 
+:warning: We use [BATS](https://github.com/sstephenson/bats) for the test harness.
+
+Output from `script/test` resembles:
+
+
+```
+===> Clean up from previous test runs.
+[RUN] docker_rm tftp
+[RUN] docker_rm tftpd
+[RUN] docker_rm downloads
+[RUN] docker_rm fixtures
+
+===> Create data container in which to download test files.
+[RUN] docker create --name downloads -v /home/user alpine:3.3 true
+d6c18494eb7deb05886cb9d6b90aa007c3e7ea449ab548077805f1640037bc6a
+[RUN] docker run --rm --volumes-from downloads alpine:3.3 chown -R 1000:1000 /home/user
+
+===> Create data container for fixtures.
+[RUN] docker create --name fixtures hooktftp-fixtures true
+6e51b79c0bf0f937779b51e0fc5b516cab61988a1e5aef59c587de0ae68d5b7c
+
+===> Start hooktftp server.
+[RUN] docker run -d -p 69:69/udp --volumes-from fixtures --name tftpd hooktftp-runtime
+3b6dcd53daced561a6e669d819d3a547df400f3a5166122b4b71c3145e154f1f
+Server is up at 172.17.0.2
+
+===> Run BATS tests.
+1..8
+ok 1 hooktftp binary is owned by root:root
+ok 2 hooktftp drops privileges
+ok 3 downloads site/menu from fixtures
+ok 4 downloads pxelinux.0
+ok 5 does not download a non-existent-file
+ok 6 downloads pxelinux.cfg/default
+ok 7 downloads pxelinux.cfg/F1.msg
+ok 8 hooktftp server log is meaningful
+```
+
 
 ### Publish to a private registry
 
