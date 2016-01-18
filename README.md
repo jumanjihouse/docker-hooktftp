@@ -12,9 +12,9 @@ Overview
 This source is used to build an image for
 [hooktftp](https://github.com/epeli/hooktftp).
 
-The primary artifact is a docker image with the `hooktftp` static binary
+The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
-The runtime image is quite small (roughly 18 MB) since it is based on
+The runtime image is quite small since it is based on
 [Alpine Linux](https://www.alpinelinux.org/).
 I may support other userspaces in the future.
 
@@ -180,7 +180,7 @@ d6c18494eb7deb05886cb9d6b90aa007c3e7ea449ab548077805f1640037bc6a
 Server is up at 172.17.0.2
 
 ===> Run BATS tests.
-1..8
+1..10
 ok 1 hooktftp binary is owned by root:root
 ok 2 hooktftp drops privileges
 ok 3 downloads site/menu from fixtures
@@ -189,6 +189,8 @@ ok 5 does not download a non-existent-file
 ok 6 downloads pxelinux.cfg/default
 ok 7 downloads pxelinux.cfg/F1.msg
 ok 8 hooktftp server log is meaningful
+ok 9 HOOKTFTP_VERSION is a symlink at top-level
+ok 10 HOOKTFTP_VERSION is a regular file in build direcctory
 ```
 
 

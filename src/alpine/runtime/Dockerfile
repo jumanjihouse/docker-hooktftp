@@ -2,7 +2,7 @@ FROM gliderlabs/alpine
 
 # CA certs are important if you add a hook for https.
 RUN apk update && \
-    apk add ca-certificates
+    apk add ca-certificates file
 
 # Add the static binary.
 COPY hooktftp /usr/bin/
@@ -26,7 +26,7 @@ VOLUME /etc/hooktftp
 # NOTE: If you bump the syslinux version here,
 #       please also update the README.md.
 RUN apk update && \
-    apk add --virtual sl_plus_deps syslinux=6.03-r0 && \
+    apk add --virtual sl_plus_deps "syslinux>=6.03-r0" && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del sl_plus_deps
@@ -39,4 +39,5 @@ VOLUME /tftpboot
 
 # Run hooktftp by default at runtime.
 RUN adduser -D hooktftp
-ENTRYPOINT ["/usr/bin/hooktftp", "/etc/hooktftp/hooktftp.yml"]
+ENTRYPOINT ["/usr/bin/hooktftp"]
+CMD ["-v", "/etc/hooktftp/hooktftp.yml"]

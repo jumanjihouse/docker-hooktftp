@@ -1,0 +1,61 @@
+--- Makefile.orig	2016-01-18 01:36:53.000000000 +0000
++++ Makefile	2016-01-18 02:29:18.335032480 +0000
+@@ -62,46 +62,46 @@
+ 	mkdir shell
+ 
+ shell/small: shell fixtures/small hooktftp
+-	atftp --get --remote-file shell/small --local-file shell/small localhost 4242
++	tftp -g -r shell/small -l shell/small localhost 4242
+ 
+ shell/medium: shell fixtures/medium hooktftp
+-	atftp --get --remote-file shell/medium --local-file shell/medium localhost 4242
++	tftp -g -r shell/medium -l shell/medium localhost 4242
+ 
+ shell/large: shell fixtures/large hooktftp
+-	atftp --option "blksize 1468" --get --remote-file shell/large --local-file shell/large localhost 4242
++	tftp -b 1468 -g -r shell/large -l shell/large localhost 4242
+ 
+ shell/limit: shell fixtures/limit hooktftp
+-	atftp --option "blksize 512" --get --remote-file shell/limit --local-file shell/limit localhost 4242
++	tftp -b 512 -g -r shell/limit -l shell/limit localhost 4242
+ 
+ files:
+ 	mkdir files
+ 
+ files/small: files fixtures/small hooktftp
+-	atftp --get --remote-file files/small --local-file files/small localhost 4242
++	tftp -g -r files/small -l files/small localhost 4242
+ 
+ files/medium: files fixtures/medium hooktftp
+-	atftp --get --remote-file files/medium --local-file files/medium localhost 4242
++	tftp -g -r files/medium -l files/medium localhost 4242
+ 
+ files/large: files fixtures/large hooktftp
+-	atftp --option "blksize 1468" --get --remote-file files/large --local-file files/large localhost 4242
++	tftp -b 1468 -g -r files/large -l files/large localhost 4242
+ 
+ files/limit: files fixtures/limit hooktftp
+-	atftp --option "blksize 512" --get --remote-file files/limit --local-file files/limit localhost 4242
++	tftp -b 512 -g -r files/limit -l files/limit localhost 4242
+ 
+ web:
+ 	mkdir web
+ 
+ web/small: web fixtures/small hooktftp httpd
+-	atftp --get --remote-file web/small --local-file web/small localhost 4242
++	tftp -g -r web/small -l web/small localhost 4242
+ 
+ web/medium: web fixtures/medium hooktftp httpd
+-	atftp --get --remote-file web/medium --local-file web/medium localhost 4242
++	tftp -g -r web/medium -l web/medium localhost 4242
+ 
+ web/large: web fixtures/large hooktftp httpd
+-	atftp --option "blksize 1468" --get --remote-file web/large --local-file web/large localhost 4242
++	tftp -b 1468 -g -r web/large -l web/large localhost 4242
+ 
+ web/limit: web fixtures/limit hooktftp httpd
+-	atftp --option "blksize 512" --get --remote-file web/limit --local-file web/limit localhost 4242
++	tftp -b 512 -g -r web/limit -l web/limit localhost 4242
+ 
+ 
+ clean: 

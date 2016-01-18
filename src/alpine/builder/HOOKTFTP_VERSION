@@ -1,0 +1,2 @@
+# This can be a commit or any other git treeish.
+export HOOKTPTP_VERSION="1d2388158dcbe198b16cf9dfe008f85420d2862c"
