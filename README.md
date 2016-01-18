@@ -1,6 +1,11 @@
 hooktftp in a container!
 ========================
 
+[![Image Size](https://img.shields.io/imagelayers/image-size/jumanjiman/hooktftp/latest.svg)](https://imagelayers.io/?images=jumanjiman/hooktftp:latest 'View image size and layers')&nbsp;
+[![Image Layers](https://img.shields.io/imagelayers/layers/jumanjiman/hooktftp/latest.svg)](https://imagelayers.io/?images=jumanjiman/hooktftp:latest 'View image size and layers')&nbsp;
+[![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/hooktftp.svg)](https://registry.hub.docker.com/u/jumanjiman/hooktftp 'View on docker hub')&nbsp;
+[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
+
 Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)
 
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
