@@ -1,8 +1,9 @@
-FROM gliderlabs/alpine
+FROM alpine:3.3
 
 # CA certs are important if you add a hook for https.
-RUN apk update && \
-    apk add ca-certificates file
+RUN apk add --no-cache \
+      ca-certificates \
+      file
 
 # Add the static binary.
 COPY hooktftp /usr/bin/
@@ -25,11 +26,10 @@ VOLUME /etc/hooktftp
 #
 # NOTE: If you bump the syslinux version here,
 #       please also update the README.md.
-RUN apk update && \
-    apk add --virtual sl_plus_deps "syslinux>=6.03-r0" && \
+RUN apk add --no-cache --virtual sl_plus_deps "syslinux>=6.03-r0" && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
-    apk del sl_plus_deps
+    apk del --no-cache sl_plus_deps
 
 # Add safe defaults that can be overriden easily.
 COPY pxelinux.cfg /tftpboot/pxelinux.cfg/

@@ -1,7 +1,12 @@
-FROM gliderlabs/alpine
+FROM alpine:3.3
 
-RUN apk update && \
-    apk add bzr git go make gcc musl-dev
+RUN apk add --no-cache \
+      bzr \
+      git \
+      go \
+      make \
+      gcc \
+      musl-dev
 
 RUN adduser -D user
 COPY . /home/user/
