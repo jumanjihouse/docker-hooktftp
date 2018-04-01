@@ -1,21 +1,16 @@
 hooktftp in a container!
 ========================
 
+This source is used to build an image for
+[hooktftp](https://github.com/tftp-go-team/hooktftp).
+
+Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)<br/>
+Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
+
 [![](https://images.microbadger.com/badges/image/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
 [![](https://images.microbadger.com/badges/version/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
 [![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/hooktftp.svg)](https://registry.hub.docker.com/u/jumanjiman/hooktftp 'View on docker hub')&nbsp;
 [![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
-
-Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)
-<br/>
-Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
-
-
-Overview
---------
-
-This source is used to build an image for
-[hooktftp](https://github.com/tftp-go-team/hooktftp).
 
 The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
@@ -28,6 +23,21 @@ tftpd image that contains *all the things* and a flexible tftpd
 image that contains *just enough* to combine with custom-built
 data containers or volumes an organization needs to bootstrap
 their infrastructure.
+
+**Table of Contents**
+
+- [Build integrity and docker tags](#build-integrity-and-docker-tags)
+- [How-to](#how-to)
+    - [Fetch an already-built image](#fetch-an-already-built-image)
+    - [List files in the image](#list-files-in-the-image)
+    - [Load NetFilter modules](#load-netfilter-modules)
+    - [Configure and run](#configure-and-run)
+    - [Use systemd for automatic startup](#use-systemd-for-automatic-startup)
+    - [Build](#build)
+    - [Test](#test)
+    - [Publish to a private registry](#publish-to-a-private-registry)
+- [Contribute](#contribute)
+- [License](#license)
 
 
 Build integrity and docker tags
