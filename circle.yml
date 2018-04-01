@@ -20,11 +20,11 @@ dependencies:
     - docker info
     - docker version
     - ss -tulpn
-    - script/build
+    - ci/build
 
 test:
   override:
-    - script/test
+    - ci/test
 
 # https://circleci.com/docs/configuration#deployment
 # https://circleci.com/docs/environment-variables

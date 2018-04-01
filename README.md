@@ -139,22 +139,22 @@ The build script(s) produce multiple artifacts:
 
 On a docker host, run:
 
-    script/build
-    script/test
+    ci/build
+    ci/test
 
 If you want to do a timed build-and-test, run:
 
-    script/timed-build-and-test
+    ci/timed-build-and-test
 
 You can also test via the docker remote API if you have configured a remote docker host:
 
     export DOCKER_HOST=tcp://<remote_ip>:<port>
-    script/build
-    script/test
+    ci/build
+    ci/test
 
 :warning: We use [BATS](https://github.com/sstephenson/bats) for the test harness.
 
-Output from `script/test` resembles:
+Output from `ci/test` resembles:
 
 
 ```

@@ -1,5 +1,5 @@
 #!/bin/sh
-# core@ip-192-168-254-162 ~/docker-hooktftp $ script/timed-build-and-test
+# core@ip-192-168-254-162 ~/docker-hooktftp $ ci/timed-build-and-test
 # ===> Remove built images if they exist.
 # ---> Remove hooktftp-builder
 # ---> Remove hooktftp-runtime
@@ -199,4 +199,4 @@ done
 
 echo
 echo "===> Begin timed build-and-test cycle."
-time (script/build && script/test)
+time (ci/build && ci/test)
