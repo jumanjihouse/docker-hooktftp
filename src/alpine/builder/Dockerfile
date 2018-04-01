@@ -6,6 +6,7 @@ RUN apk add --no-cache \
       git \
       make \
       gcc \
+      patch \
       musl-dev
 
 RUN apk add --no-cache -X http://dl-4.alpinelinux.org/alpine/edge/community \

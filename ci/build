@@ -16,7 +16,7 @@ echo "===> Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/runtime
 smitty docker cp builder:/tmp/hooktftp .
 smitty docker build --rm -t hooktftp-runtime .
-smitty rm -f hooktftp
+smitty mv -f hooktftp /tmp/
 popd
 
 echo

@@ -206,7 +206,7 @@ Output from `ci/test` resembles:
     Server is up at 172.17.0.3
 
     ===> Run BATS tests.
-    1..10
+    1..14
     ok 1 hooktftp binary is owned by root:root
     ok 2 hooktftp drops privileges
     ok 3 downloads site/menu from fixtures
@@ -215,8 +215,12 @@ Output from `ci/test` resembles:
     ok 6 downloads pxelinux.cfg/default
     ok 7 downloads pxelinux.cfg/F1.msg
     ok 8 hooktftp server log is meaningful
-    ok 9 HOOKTFTP_VERSION is a symlink at top-level
-    ok 10 HOOKTFTP_VERSION is a regular file in build direcctory
+    ok 9 file command is available
+    ok 10 scanelf command is available
+    ok 11 hooktftp binary is stripped
+    ok 12 hooktftp binary is statically compiled
+    ok 13 HOOKTFTP_VERSION is a symlink at top-level
+    ok 14 HOOKTFTP_VERSION is a regular file in build direcctory
     ci/test OK
 
 
