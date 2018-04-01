@@ -1,3 +1,9 @@
+setup() {
+  docker rm -fv runtime &> /dev/null || :
+  docker run --name=runtime hooktftp-runtime -h 2>&1 | grep Usage
+  docker cp runtime:/usr/bin/hooktftp /tmp/
+}
+
 @test "file command is available" {
   run command -v file
   [[ $status -eq 0 ]]

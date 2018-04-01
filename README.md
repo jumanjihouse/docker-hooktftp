@@ -88,13 +88,13 @@ Add helpers to track connections:
 
 The container reads the config file `/etc/hooktftp/hooktftp.yml`
 inside the container. You can use the default config provided
-[inside the image](src/alpine/runtime/hooktftp.yml) or provide
+[inside the image](src/alpine/builder/hooktftp.yml) or provide
 your own at runtime.
 
 The published image contains *just enough* files to provide
 a base tftpd to PXE-boot your hosts to a simple menu.
-The [simple menu](src/alpine/runtime/pxelinux.cfg/F1.msg) and
-[pxelinux.cfg/default](src/alpine/runtime/pxelinux.cfg/default)
+The [simple menu](src/alpine/builder/pxelinux.cfg/F1.msg) and
+[pxelinux.cfg/default](src/alpine/builder/pxelinux.cfg/default)
 only allow to skip PXE.
 Therefore you probably want to override the built-in menu.
 
@@ -143,7 +143,6 @@ The build script(s) produce multiple artifacts:
 
 | Image Tag        | Size   | Purpose                        |
 | :--------------- | -----: | :----------------------------- |
-| hooktftp-builder | 400 MB | compile hooktftp static binary |
 | hooktftp-runtime |  18 MB | run hooktftp as a service      |
 | tftp             |   6 MB | test the runtime container     |
 
