@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-. script/functions
+. ci/functions
 
 echo
 echo "===> Build hooktftp inside a dev container and copy to /tmp."
@@ -31,7 +31,7 @@ popd
 
 echo
 echo "===> Show image sizes."
-docker images | egrep '^(hooktftp|tftp)\b'
+docker images | grep -E '^(hooktftp|tftp)\b'
 
 
 echo

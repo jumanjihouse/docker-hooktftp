@@ -12,31 +12,31 @@ load functions
 
 @test "downloads site/menu from fixtures" {
   tftp_get $ip site/menu
-  run docker run --rm --volumes-from downloads alpine:3.3 test -r /home/user/menu
+  run docker run --rm --volumes-from downloads alpine:3.7 test -r /home/user/menu
   [ ${status} -eq 0 ]
 }
 
 @test "downloads pxelinux.0" {
   tftp_get $ip pxelinux.0
-  run docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/pxelinux.0
+  run docker run --rm --volumes-from downloads alpine:3.7 test -s /home/user/pxelinux.0
   [ ${status} -eq 0 ]
 }
 
 @test "does not download a non-existent-file" {
   tftp_get $ip non-existent-file
-  run docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/non-existent-file
+  run docker run --rm --volumes-from downloads alpine:3.7 test -s /home/user/non-existent-file
   [ ${status} -ne 0 ]
 }
 
 @test "downloads pxelinux.cfg/default" {
   tftp_get $ip pxelinux.cfg/default
-  run docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/default
+  run docker run --rm --volumes-from downloads alpine:3.7 test -s /home/user/default
   [ ${status} -eq 0 ]
 }
 
 @test "downloads pxelinux.cfg/F1.msg" {
   tftp_get $ip pxelinux.cfg/F1.msg
-  run docker run --rm --volumes-from downloads alpine:3.3 test -s /home/user/F1.msg
+  run docker run --rm --volumes-from downloads alpine:3.7 test -s /home/user/F1.msg
   [ ${status} -eq 0 ]
 }
 
