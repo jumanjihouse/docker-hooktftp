@@ -7,7 +7,7 @@ hooktftp in a container!
 [![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
 
 Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)
-
+<br/>
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
 
 
@@ -15,7 +15,7 @@ Overview
 --------
 
 This source is used to build an image for
-[hooktftp](https://github.com/epeli/hooktftp).
+[hooktftp](https://github.com/tftp-go-team/hooktftp).
 
 The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
