@@ -1,11 +1,7 @@
---- Makefile.orig	2016-01-18 02:51:53.732134947 +0000
-+++ Makefile	2016-01-18 02:54:30.752177013 +0000
-@@ -3,7 +3,7 @@
- build: deps hooktftp
- 
- hooktftp: regexptransform/regexp_transform_test.go regexptransform/regexp_transform.go drop_privileges.go hooks/file_hook.go hooks/hooks_test.go hooks/shell_hook.go hooks/http_hook.go hooks/compile.go config/parse_yaml.go config/parse_yaml_test.go logger/logger.go hooktftp.go
+diff --git src/Makefile src/Makefile
+index d72adb9..1007d05 100644
+--- src/Makefile
++++ src/Makefile
+@@ -6 +6 @@ hooktftp: regexptransform/regexp_transform_test.go regexptransform/regexp_transf
 -	go build -a -v -o hooktftp
-+	go build -a -v -o hooktftp -installsuffix cgo -tags netgo -ldflags '-w'
- 
- .PHONY: deps
- deps:
++	CGO_ENABLED=0 LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LIBRARY_PATH go build -a -v -o hooktftp -installsuffix cgo -tags netgo -ldflags '-extldflags "-static" -s' -buildmode exe

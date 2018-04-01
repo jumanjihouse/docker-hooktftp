@@ -4,19 +4,9 @@ set -e
 . ci/functions
 
 echo
-echo "===> Build hooktftp inside a dev container and copy to /tmp."
-pushd src/alpine/builder
-smitty docker build --rm -t hooktftp-builder .
-smitty docker rm -f builder || :
-smitty docker run --name builder hooktftp-builder
-popd
-
-echo
 echo "===> Build a tiny runtime image with hooktftp static binary."
-pushd src/alpine/runtime
-smitty docker cp builder:/tmp/hooktftp .
+pushd src/alpine/builder
 smitty docker build --rm -t hooktftp-runtime .
-smitty rm -f hooktftp
 popd
 
 echo
