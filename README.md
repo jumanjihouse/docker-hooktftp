@@ -142,10 +142,6 @@ On a docker host, run:
     ci/build
     ci/test
 
-If you want to do a timed build-and-test, run:
-
-    ci/timed-build-and-test
-
 You can also test via the docker remote API if you have configured a remote docker host:
 
     export DOCKER_HOST=tcp://<remote_ip>:<port>
