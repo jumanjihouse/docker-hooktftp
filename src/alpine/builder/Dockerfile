@@ -3,6 +3,7 @@ FROM alpine:3.7 as builder
 RUN apk add --no-cache \
       busybox-extras \
       bzr \
+      ca-certificates \
       git \
       make \
       gcc \
@@ -12,30 +13,6 @@ RUN apk add --no-cache \
 RUN apk add --no-cache -X http://dl-4.alpinelinux.org/alpine/edge/community \
       'go>=1.10'
 
-RUN adduser -D user
-COPY . /home/user/
-
-USER user
-RUN /home/user/build.sh
-
-################################################################################
-# Runtime image.
-################################################################################
-FROM alpine:3.7
-
-# CA certs are important if you add a hook for https.
-RUN apk add --no-cache \
-      ca-certificates \
-      file
-
-# Add the static binary.
-COPY --from=builder /tmp/hooktftp /usr/bin/
-
-# Add a trivial config that can be overridden at runtime.
-COPY hooktftp.yml /etc/hooktftp/hooktftp.yml
-VOLUME /etc/hooktftp
-
-# Publish the typical syslinux and pxelinux files at tftp root.
 # We only need one subtree of files from syslinux, and
 # we don't need its dependencies, so...
 #
@@ -50,6 +27,30 @@ RUN apk add --no-cache --virtual sl_plus_deps "syslinux>=6.03-r0" && \
     cp -r /usr/share/syslinux /tftpboot && \
     find /tftpboot -type f -exec chmod 0444 {} + && \
     apk del --no-cache sl_plus_deps
+
+RUN adduser -D user
+COPY . /home/user/
+
+USER user
+RUN /home/user/build.sh
+
+################################################################################
+# Runtime image.
+################################################################################
+FROM alpine:3.7
+
+# CA certs are important if you add a hook for https.
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+# Add the static binary.
+COPY --from=builder /tmp/hooktftp /usr/bin/
+
+# Add a trivial config that can be overridden at runtime.
+COPY hooktftp.yml /etc/hooktftp/hooktftp.yml
+VOLUME /etc/hooktftp
+
+# Publish the typical syslinux and pxelinux files at tftp root.
+COPY --from=builder /tftpboot /tftpboot
 
 # Add safe defaults that can be overriden easily.
 COPY pxelinux.cfg /tftpboot/pxelinux.cfg/
