@@ -20,3 +20,8 @@ docker tag hooktftp-runtime jumanjiman/hooktftp:latest
 docker push jumanjiman/hooktftp:latest
 
 docker logout
+
+# Update microbadger metadata.
+echo -n '[INFO] ask microbadger to update metadata'
+curl -sS -X POST 'https://hooks.microbadger.com/images/jumanjiman/hooktftp/bg-SgHGCY6MwMUXWe0nWvAtvXjE='
+echo
