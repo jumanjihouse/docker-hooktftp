@@ -37,7 +37,7 @@ RUN /home/user/build.sh
 ################################################################################
 # Runtime image.
 ################################################################################
-FROM alpine:3.7
+FROM scratch
 
 # CA certs are important if you add a hook for https.
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt

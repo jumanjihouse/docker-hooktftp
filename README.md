@@ -14,9 +14,15 @@ Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://regis
 
 The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
-The runtime image is quite small since it is based on
-[Alpine Linux](https://www.alpinelinux.org/).
-I may support other userspaces in the future.
+<br/>The runtime image contains **only**:
+
+* a static binary,
+* a default config file,
+* CA certificates, and
+* `/etc/passwd` to provide an unprivileged user.
+
+The container runs as an unprivileged user via the technique described in
+[this Medium post](https://medium.com/@lizrice/non-privileged-containers-based-on-the-scratch-image-a80105d6d341).
 
 The goal is to provide a compromise between a single, monolithic
 tftpd image that contains *all the things* and a flexible tftpd
@@ -143,7 +149,7 @@ The build script(s) produce multiple artifacts:
 
 | Image Tag        | Size   | Purpose                        |
 | :--------------- | -----: | :----------------------------- |
-| hooktftp-runtime |  18 MB | run hooktftp as a service      |
+| hooktftp-runtime |   8 MB | run hooktftp as a service      |
 | tftp             |   6 MB | test the runtime container     |
 
 On a docker host, run:
@@ -205,21 +211,20 @@ Output from `ci/test` resembles:
     Server is up at 172.17.0.3
 
     ===> Run BATS tests.
-    1..14
-    ok 1 hooktftp binary is owned by root:root
-    ok 2 hooktftp drops privileges
-    ok 3 downloads site/menu from fixtures
-    ok 4 downloads pxelinux.0
-    ok 5 does not download a non-existent-file
-    ok 6 downloads pxelinux.cfg/default
-    ok 7 downloads pxelinux.cfg/F1.msg
-    ok 8 hooktftp server log is meaningful
-    ok 9 file command is available
-    ok 10 scanelf command is available
-    ok 11 hooktftp binary is stripped
-    ok 12 hooktftp binary is statically compiled
-    ok 13 HOOKTFTP_VERSION is a symlink at top-level
-    ok 14 HOOKTFTP_VERSION is a regular file in build direcctory
+    1..13
+    ok 1 hooktftp drops privileges
+    ok 2 downloads site/menu from fixtures
+    ok 3 downloads pxelinux.0
+    ok 4 does not download a non-existent-file
+    ok 5 downloads pxelinux.cfg/default
+    ok 6 downloads pxelinux.cfg/F1.msg
+    ok 7 hooktftp server log is meaningful
+    ok 8 file command is available
+    ok 9 scanelf command is available
+    ok 10 hooktftp binary is stripped
+    ok 11 hooktftp binary is statically compiled
+    ok 12 HOOKTFTP_VERSION is a symlink at top-level
+    ok 13 HOOKTFTP_VERSION is a regular file in build direcctory
     ci/test OK
 
 

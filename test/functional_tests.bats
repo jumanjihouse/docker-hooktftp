@@ -1,13 +1,11 @@
 load functions
 
-@test "hooktftp binary is owned by root:root" {
-  uidgid=$(docker run --rm --entrypoint /bin/sh hooktftp-runtime -c "stat -c %u:%g /usr/bin/hooktftp" | tr -d '=r')
-  test '0:0' = "$uidgid"
-}
-
 @test "hooktftp drops privileges" {
   run docker logs tftpd
   [[ ${output} =~ 'Dropped privileges' ]]
+
+  docker run --rm -it --pid container:tftpd --network container:tftpd alpine:3.7 ps -o pid,user,group,comm |
+  grep -E '1 1000     1000     hooktftp'
 }
 
 @test "downloads site/menu from fixtures" {
