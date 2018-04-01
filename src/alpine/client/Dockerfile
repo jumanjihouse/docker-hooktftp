@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.7
 
 # Install dependencies.
 RUN apk add --no-cache tftp-hpa

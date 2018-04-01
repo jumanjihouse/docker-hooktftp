@@ -18,9 +18,9 @@ done
 
 echo
 echo "===> Create data container in which to download test files."
-smitty docker create --name downloads -v /home/user alpine:3.3 true
+smitty docker create --name downloads -v /home/user alpine:3.7 true
 # Ensure the tftp client user has permissions on the volume.
-smitty docker run --rm --volumes-from downloads alpine:3.3 chown -R 1000:1000 /home/user
+smitty docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
 
 echo
 echo "===> Create data container for fixtures."

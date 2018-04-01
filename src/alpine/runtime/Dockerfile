@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.7
 
 # CA certs are important if you add a hook for https.
 RUN apk add --no-cache \

@@ -161,9 +161,9 @@ Output from `ci/test` resembles:
 [RUN] docker_rm fixtures
 
 ===> Create data container in which to download test files.
-[RUN] docker create --name downloads -v /home/user alpine:3.3 true
+[RUN] docker create --name downloads -v /home/user alpine:3.7 true
 d6c18494eb7deb05886cb9d6b90aa007c3e7ea449ab548077805f1640037bc6a
-[RUN] docker run --rm --volumes-from downloads alpine:3.3 chown -R 1000:1000 /home/user
+[RUN] docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
 
 ===> Create data container for fixtures.
 [RUN] docker create --name fixtures hooktftp-fixtures true
