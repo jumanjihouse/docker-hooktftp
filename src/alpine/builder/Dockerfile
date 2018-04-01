@@ -59,6 +59,6 @@ COPY pxelinux.cfg /tftpboot/pxelinux.cfg/
 VOLUME /tftpboot
 
 # Run hooktftp by default at runtime.
-RUN adduser -D hooktftp
+COPY passwd /etc/passwd
 ENTRYPOINT ["/usr/bin/hooktftp"]
 CMD ["-v", "/etc/hooktftp/hooktftp.yml"]
