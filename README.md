@@ -140,6 +140,14 @@ The build script(s) produce multiple artifacts:
 On a docker host, run:
 
     ci/build
+
+
+### Test
+
+:warning: We use [BATS](https://github.com/sstephenson/bats) for the test harness.
+
+On a docker host, run:
+
     ci/test
 
 You can also test via the docker remote API if you have configured a remote docker host:
@@ -148,45 +156,58 @@ You can also test via the docker remote API if you have configured a remote dock
     ci/build
     ci/test
 
-:warning: We use [BATS](https://github.com/sstephenson/bats) for the test harness.
-
 Output from `ci/test` resembles:
 
+    ===> Run file checks.
+    [forbid-binary] Forbid binaries..........................................(no files to check)Skipped
+    [git-check] Check for conflict markers and core.whitespace errors............................Passed
+    [git-dirty] Check if the git tree is dirty...................................................Passed
+    [shellcheck] Test shell scripts with shellcheck..............................................Passed
+    [yamllint] yamllint..........................................................................Passed
+    [check-added-large-files] Check for added large files........................................Passed
+    [check-case-conflict] Check for case conflicts...............................................Passed
+    [check-executables-have-shebangs] Check that executables have shebangs.......................Passed
+    [check-json] Check JSON..................................................(no files to check)Skipped
+    [check-merge-conflict] Check for merge conflicts.............................................Passed
+    [check-xml] Check Xml....................................................(no files to check)Skipped
+    [check-yaml] Check Yaml......................................................................Passed
+    [detect-private-key] Detect Private Key......................................................Passed
+    [forbid-crlf] CRLF end-lines checker.........................................................Passed
+    [forbid-tabs] No-tabs checker................................................................Passed
 
-```
-===> Clean up from previous test runs.
-[RUN] docker_rm tftp
-[RUN] docker_rm tftpd
-[RUN] docker_rm downloads
-[RUN] docker_rm fixtures
+    ===> Clean up from previous test runs.
+    [RUN] docker_rm tftp
+    [RUN] docker_rm tftpd
+    [RUN] docker_rm downloads
+    [RUN] docker_rm fixtures
 
-===> Create data container in which to download test files.
-[RUN] docker create --name downloads -v /home/user alpine:3.7 true
-d6c18494eb7deb05886cb9d6b90aa007c3e7ea449ab548077805f1640037bc6a
-[RUN] docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
+    ===> Create data container in which to download test files.
+    [RUN] docker create --name downloads -v /home/user alpine:3.7 true
+    19d787a81fa8cc3d68fdd97f0d7fa85d2d3f95fadcd144e52f47aafda74fb763
+    [RUN] docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
 
-===> Create data container for fixtures.
-[RUN] docker create --name fixtures hooktftp-fixtures true
-6e51b79c0bf0f937779b51e0fc5b516cab61988a1e5aef59c587de0ae68d5b7c
+    ===> Create data container for fixtures.
+    [RUN] docker create --name fixtures hooktftp-fixtures true
+    35887d1b1761350b9dda5dac398822d91d9e7375cd29ef2b88feb3e7b97d7d41
 
-===> Start hooktftp server.
-[RUN] docker run -d -p 69:69/udp --volumes-from fixtures --name tftpd hooktftp-runtime
-3b6dcd53daced561a6e669d819d3a547df400f3a5166122b4b71c3145e154f1f
-Server is up at 172.17.0.2
+    ===> Start hooktftp server.
+    [RUN] docker run -d -p 69:69/udp --volumes-from fixtures --name tftpd hooktftp-runtime
+    28cd162ee8edbe314354ec09d5bbd65bb40350d977d41d9544f6d1482a98f144
+    Server is up at 172.17.0.3
 
-===> Run BATS tests.
-1..10
-ok 1 hooktftp binary is owned by root:root
-ok 2 hooktftp drops privileges
-ok 3 downloads site/menu from fixtures
-ok 4 downloads pxelinux.0
-ok 5 does not download a non-existent-file
-ok 6 downloads pxelinux.cfg/default
-ok 7 downloads pxelinux.cfg/F1.msg
-ok 8 hooktftp server log is meaningful
-ok 9 HOOKTFTP_VERSION is a symlink at top-level
-ok 10 HOOKTFTP_VERSION is a regular file in build direcctory
-```
+    ===> Run BATS tests.
+    1..10
+    ok 1 hooktftp binary is owned by root:root
+    ok 2 hooktftp drops privileges
+    ok 3 downloads site/menu from fixtures
+    ok 4 downloads pxelinux.0
+    ok 5 does not download a non-existent-file
+    ok 6 downloads pxelinux.cfg/default
+    ok 7 downloads pxelinux.cfg/F1.msg
+    ok 8 hooktftp server log is meaningful
+    ok 9 HOOKTFTP_VERSION is a symlink at top-level
+    ok 10 HOOKTFTP_VERSION is a regular file in build direcctory
+    ci/test OK
 
 
 ### Publish to a private registry

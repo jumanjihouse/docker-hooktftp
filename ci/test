@@ -1,8 +1,14 @@
-#!/bin/sh
-set -e
+#!/bin/bash
+set -eEu
+set -o pipefail
 
+. ci/bootstrap
 . ci/functions
 . test/functions.bash
+
+echo
+echo '===> Run file checks.'
+pre-commit run --all-files --verbose
 
 echo
 echo "===> Clean up from previous test runs."
@@ -13,7 +19,7 @@ cids="
   fixtures
 "
 for cid in $cids; do
-  smitty docker_rm $cid || :
+  smitty docker_rm "${cid}" || :
 done
 
 echo
