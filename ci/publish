@@ -2,6 +2,7 @@
 set -eEu
 set -o pipefail
 
+. ci/functions
 . ci/vars
 
 # shellcheck disable=SC2154
