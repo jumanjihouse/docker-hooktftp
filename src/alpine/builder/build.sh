@@ -12,7 +12,7 @@ export GOPATH=/home/user/go
 export PATH="$PATH:$GOPATH/bin"
 git clone https://github.com/tftp-go-team/hooktftp.git ~/go/src/github.com/tftp-go-team/hooktftp
 cd ~/go/src/github.com/tftp-go-team/hooktftp
-git checkout "${HOOKTFTP_VERSION}"
+git checkout "${HOOKTFTP_VERSION}" -- .
 
 # We want static binary.
 #
