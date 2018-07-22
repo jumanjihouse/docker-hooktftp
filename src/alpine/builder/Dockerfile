@@ -1,4 +1,5 @@
-FROM alpine:3.7 as builder
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} as builder
 
 RUN apk add --no-cache \
       busybox-extras \

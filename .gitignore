@@ -1,3 +1,4 @@
 *.swp
 *~
 **/hooktftp
+ci/vars

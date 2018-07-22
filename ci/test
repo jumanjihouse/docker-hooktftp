@@ -4,6 +4,7 @@ set -o pipefail
 
 . ci/bootstrap
 . ci/functions
+. ci/vars
 . test/functions.bash
 
 info 'Run file checks.'
@@ -21,9 +22,9 @@ for cid in $cids; do
 done
 
 info "Create data container in which to download test files."
-run docker create --name downloads -v /home/user alpine:3.7 true
+run docker create --name downloads -v /home/user "${BASE_IMAGE}" true
 # Ensure the tftp client user has permissions on the volume.
-run docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
+run docker run --rm --volumes-from downloads "${BASE_IMAGE}" chown -R 1000:1000 /home/user
 
 info "Create data container for fixtures."
 run docker create --name fixtures hooktftp-fixtures true

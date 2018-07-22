@@ -2,11 +2,7 @@
 set -eEu
 set -o pipefail
 
-VCS_REF="$(git rev-parse --short HEAD)"
-readonly VCS_REF
-
-TAG="$(date +%Y%m%dT%H%M)-git-${VCS_REF}"
-readonly TAG
+. ci/vars
 
 # shellcheck disable=SC2154
 docker login -u "${user}" -p "${pass}"
