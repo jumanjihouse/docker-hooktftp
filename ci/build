@@ -23,7 +23,6 @@ echo
 echo "===> Show image sizes."
 docker images | grep -E '^(hooktftp|tftp)\b'
 
-
 echo
 echo "WARN: you should docker tag the runtime image"
 echo "WARN: you can safely remove the other images"
