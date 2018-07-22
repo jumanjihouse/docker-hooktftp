@@ -1,10 +1,8 @@
 #!/bin/sh
-set -e
+set -exu
 
 # Do not build as root!
 [ "$(id -u)" -eq 0 ] && exit 1
-
-. /home/user/HOOKTFTP_VERSION
 
 mkdir -p /home/user/go/bin
 mkdir -p /home/user/go/src/github.com/tftp-go-team/
@@ -12,7 +10,7 @@ export GOPATH=/home/user/go
 export PATH="$PATH:$GOPATH/bin"
 git clone https://github.com/tftp-go-team/hooktftp.git ~/go/src/github.com/tftp-go-team/hooktftp
 cd ~/go/src/github.com/tftp-go-team/hooktftp
-git checkout "${HOOKTFTP_VERSION}"
+git checkout "${HOOKTFTP_VERSION}" -- .
 
 # We want static binary.
 #

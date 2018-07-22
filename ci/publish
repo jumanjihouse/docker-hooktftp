@@ -2,26 +2,22 @@
 set -eEu
 set -o pipefail
 
-VCS_REF="$(git rev-parse --short HEAD)"
-readonly VCS_REF
-
-TAG="$(date +%Y%m%dT%H%M)-git-${VCS_REF}"
-readonly TAG
+. ci/vars
 
 # shellcheck disable=SC2154
 docker login -u "${user}" -p "${pass}"
 
 # Push pessimistic tag.
-docker tag hooktftp-runtime "jumanjiman/hooktftp:${TAG}"
-docker push "jumanjiman/hooktftp:${TAG}"
+run docker tag hooktftp-runtime "jumanjiman/hooktftp:${TAG}"
+run docker push "jumanjiman/hooktftp:${TAG}"
 
 # Push optimistic tag.
-docker tag hooktftp-runtime jumanjiman/hooktftp:latest
-docker push jumanjiman/hooktftp:latest
+run docker tag hooktftp-runtime jumanjiman/hooktftp:latest
+run docker push jumanjiman/hooktftp:latest
 
 docker logout
 
 # Update microbadger metadata.
-echo -n '[INFO] ask microbadger to update metadata'
-curl -sS -X POST 'https://hooks.microbadger.com/images/jumanjiman/hooktftp/bg-SgHGCY6MwMUXWe0nWvAtvXjE='
+info 'Request microbadger to update metadata'
+run curl -sS -X POST 'https://hooks.microbadger.com/images/jumanjiman/hooktftp/bg-SgHGCY6MwMUXWe0nWvAtvXjE='
 echo

@@ -1,30 +1,39 @@
 #!/bin/bash
 set -e
 
+cat >ci/vars <<EOF
+BASE_IMAGE='alpine:3.8'
+VCS_REF="$(git rev-parse --short HEAD)"
+TAG="$(date +%Y%m%dT%H%M)-git-\${VCS_REF}"
+
+# # This can be a commit or any other git treeish.
+HOOKTFTP_VERSION="8736c5fade98b7bd589d50936ab1ccd41a52eaaa"
+EOF
+
 . ci/functions
+. ci/vars
 
-echo
-echo "===> Build a tiny runtime image with hooktftp static binary."
+info "Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/builder
-smitty docker build --rm -t hooktftp-runtime .
+run docker build \
+  --rm \
+  --build-arg BASE_IMAGE="${BASE_IMAGE}" \
+  --build-arg HOOKTFTP_VERSION="${HOOKTFTP_VERSION}" \
+  -t hooktftp-runtime .
 popd
 
-echo
-echo "===> Build a fixtures images that we use to test."
-smitty docker build --rm -t hooktftp-fixtures fixtures/
+info "Build a fixtures images that we use to test."
+run docker build --rm -t hooktftp-fixtures fixtures/
 
-echo
-echo "===> Build a tiny tftp client image that we use to test."
+info "Build a tiny tftp client image that we use to test."
 pushd src/alpine/client
-smitty docker build --rm -t tftp .
+run docker build --rm --build-arg BASE_IMAGE="${BASE_IMAGE}" -t tftp .
 popd
 
-echo
-echo "===> Show image sizes."
+info "Show image sizes."
 docker images | grep -E '^(hooktftp|tftp)\b'
 
-
 echo
-echo "WARN: you should docker tag the runtime image"
-echo "WARN: you can safely remove the other images"
+warn "Remember to docker tag the runtime image."
+warn "You can safely remove the other images."
 echo

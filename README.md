@@ -10,7 +10,7 @@ Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://regis
 [![](https://images.microbadger.com/badges/image/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
 [![](https://images.microbadger.com/badges/version/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
 [![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/hooktftp.svg)](https://registry.hub.docker.com/u/jumanjiman/hooktftp 'View on docker hub')&nbsp;
-[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
+[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?style=svg&circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
 
 The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
@@ -197,9 +197,9 @@ Output from `ci/test` resembles:
     [RUN] docker_rm fixtures
 
     ===> Create data container in which to download test files.
-    [RUN] docker create --name downloads -v /home/user alpine:3.7 true
+    [RUN] docker create --name downloads -v /home/user ${BASE_IMAGE} true
     19d787a81fa8cc3d68fdd97f0d7fa85d2d3f95fadcd144e52f47aafda74fb763
-    [RUN] docker run --rm --volumes-from downloads alpine:3.7 chown -R 1000:1000 /home/user
+    [RUN] docker run --rm --volumes-from downloads ${BASE_IMAGE} chown -R 1000:1000 /home/user
 
     ===> Create data container for fixtures.
     [RUN] docker create --name fixtures hooktftp-fixtures true
@@ -211,7 +211,7 @@ Output from `ci/test` resembles:
     Server is up at 172.17.0.3
 
     ===> Run BATS tests.
-    1..13
+    1..11
     ok 1 hooktftp drops privileges
     ok 2 downloads site/menu from fixtures
     ok 3 downloads pxelinux.0
@@ -223,8 +223,6 @@ Output from `ci/test` resembles:
     ok 9 scanelf command is available
     ok 10 hooktftp binary is stripped
     ok 11 hooktftp binary is statically compiled
-    ok 12 HOOKTFTP_VERSION is a symlink at top-level
-    ok 13 HOOKTFTP_VERSION is a regular file in build direcctory
     ci/test OK
 
 

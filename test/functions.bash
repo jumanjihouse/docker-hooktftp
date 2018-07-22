@@ -1,7 +1,10 @@
 # shellcheck shell=bash
+
+. ci/vars
+
 docker_rm() {
   cid=$1
-  docker rm -f "${cid}" &> /dev/null || :
+  docker rm -f "${cid}" &>/dev/null || :
 }
 
 tftp_get() {

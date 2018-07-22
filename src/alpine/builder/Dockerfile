@@ -1,4 +1,5 @@
-FROM alpine:3.7 as builder
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} as builder
 
 RUN apk add --no-cache \
       busybox-extras \
@@ -30,6 +31,9 @@ RUN apk add --no-cache --virtual sl_plus_deps "syslinux>=6.03-r0" && \
 
 RUN adduser -D user
 COPY . /home/user/
+
+ARG HOOKTFTP_VERSION
+ENV HOOKTFTP_VERSION="${HOOKTFTP_VERSION}"
 
 USER user
 RUN /home/user/build.sh

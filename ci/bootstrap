@@ -6,39 +6,47 @@ set -o pipefail
 # Prepare the local dev environment.
 # Invoke from the root of the git repo as "ci/bootstrap".
 ################################################################################
-
-trap finish EXIT
+. ci/functions
 
 main() {
   setup_python_path
   install_precommit
-}
-
-finish() {
-  declare -ri RC=$?
-
-  if [[ $RC -eq 0 ]]; then
-    echo "$0 OK"
-  else
-    echo "[ERROR] $0 failed with exit status $RC"
-  fi
+  add_upstream_git_remote
+  fetch_upstream
 }
 
 setup_python_path() {
+  info "Check that PATH includes \${PYTHON_PATH}"
   PYTHON_PATH="$(python -c "import site; print(site.USER_BASE)")"
   readonly PYTHON_PATH
+  info "\${PYTHON_PATH} is ${PYTHON_PATH}"
 
-  if ! grep "${PYTHON_PATH}/bin" <(printenv PATH) &> /dev/null; then
-    export PATH="${PATH}:${PYTHON_PATH}/bin"
+  if ! grep "${PYTHON_PATH}/bin" <(printenv PATH) &>/dev/null; then
+    run export PATH="${PATH}:${PYTHON_PATH}/bin"
   fi
 }
 
 install_precommit() {
-  if ! command -v pre-commit &> /dev/null; then
-    pip install --user -Iv --compile --no-cache-dir pre-commit
-  fi
+  run pip install \
+    --compile \
+    --disable-pip-version-check \
+    --no-cache-dir \
+    --quiet \
+    --user \
+    --verbose \
+    -r ci/requirements.txt
 
-  pre-commit install-hooks
+  run pre-commit install-hooks
+}
+
+add_upstream_git_remote() {
+  if ! git remote show upstream &>/dev/null; then
+    git remote add upstream https://github.com/jumanjihouse/docker-hooktftp.git
+  fi
+}
+
+fetch_upstream() {
+  git fetch upstream
 }
 
 main
