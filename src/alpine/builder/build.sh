@@ -1,10 +1,8 @@
 #!/bin/sh
-set -e
+set -exu
 
 # Do not build as root!
 [ "$(id -u)" -eq 0 ] && exit 1
-
-. /home/user/HOOKTFTP_VERSION
 
 mkdir -p /home/user/go/bin
 mkdir -p /home/user/go/src/github.com/tftp-go-team/

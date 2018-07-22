@@ -211,7 +211,7 @@ Output from `ci/test` resembles:
     Server is up at 172.17.0.3
 
     ===> Run BATS tests.
-    1..13
+    1..11
     ok 1 hooktftp drops privileges
     ok 2 downloads site/menu from fixtures
     ok 3 downloads pxelinux.0
@@ -223,8 +223,6 @@ Output from `ci/test` resembles:
     ok 9 scanelf command is available
     ok 10 hooktftp binary is stripped
     ok 11 hooktftp binary is statically compiled
-    ok 12 HOOKTFTP_VERSION is a symlink at top-level
-    ok 13 HOOKTFTP_VERSION is a regular file in build direcctory
     ci/test OK
 
 
