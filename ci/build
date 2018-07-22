@@ -3,27 +3,23 @@ set -e
 
 . ci/functions
 
-echo
-echo "===> Build a tiny runtime image with hooktftp static binary."
+info "Build a tiny runtime image with hooktftp static binary."
 pushd src/alpine/builder
-smitty docker build --rm -t hooktftp-runtime .
+run docker build --rm -t hooktftp-runtime .
 popd
 
-echo
-echo "===> Build a fixtures images that we use to test."
-smitty docker build --rm -t hooktftp-fixtures fixtures/
+info "Build a fixtures images that we use to test."
+run docker build --rm -t hooktftp-fixtures fixtures/
 
-echo
-echo "===> Build a tiny tftp client image that we use to test."
+info "Build a tiny tftp client image that we use to test."
 pushd src/alpine/client
-smitty docker build --rm -t tftp .
+run docker build --rm -t tftp .
 popd
 
-echo
-echo "===> Show image sizes."
+info "Show image sizes."
 docker images | grep -E '^(hooktftp|tftp)\b'
 
 echo
-echo "WARN: you should docker tag the runtime image"
-echo "WARN: you can safely remove the other images"
+warn "Remember to docker tag the runtime image."
+warn "You can safely remove the other images."
 echo
