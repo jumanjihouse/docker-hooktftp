@@ -68,3 +68,9 @@ services:
     volumes_from:
       - downloads
     entrypoint: test
+
+  list_files_in_tftpboot:
+    image: ${BASE_IMAGE}
+    volumes_from:
+      - tftpd
+    command: ls -1 -R /tftpboot/

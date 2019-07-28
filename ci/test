@@ -19,5 +19,9 @@ run docker-compose up downloads
 info "Start hooktftp server and fixtures container."
 run docker-compose up -d tftpd
 
+info "List files from /tftpboot."
+run docker-compose run --rm list_files_in_tftpboot
+echo
+
 info "Run BATS tests."
 run bats --tap test/*.bats
