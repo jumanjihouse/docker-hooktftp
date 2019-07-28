@@ -62,6 +62,11 @@ COPY pxelinux.cfg /tftpboot/pxelinux.cfg/
 # Do not track further change to /tftpboot.
 VOLUME /tftpboot
 
+# Enable to add entries to /etc/hosts via
+#   docker run --add-host
+# or via the docker-compose extra_hosts option.
+COPY nsswitch.conf /etc/nsswitch.conf
+
 # Run hooktftp by default at runtime.
 COPY passwd /etc/passwd
 ENTRYPOINT ["/usr/bin/hooktftp"]

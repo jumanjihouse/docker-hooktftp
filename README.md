@@ -17,6 +17,7 @@ and a default, minimal configuration.
 
 * a static binary,
 * a default config file,
+* `/etc/nsswitch.conf` so golang net resolver uses `/etc/hosts`,
 * CA certificates, and
 * `/etc/passwd` to provide an unprivileged user.
 
@@ -145,6 +146,15 @@ in addition to the built-in syslinux files:
     docker run -d -p 69:69/udp \
       -v /path/to/your/pxelinux.cfg:/tftpboot/pxelinux.cfg:ro \
       -v /path/to/your/bootfiles:/tftpboot/site:ro \
+      jumanjiman/hooktftp
+
+You can add entries to `/etc/hosts` via `docker run --add-host`
+or via the docker-compose `extra_hosts` option.
+
+    docker run -d -p 69:69/udp \
+      -v /path/to/your/pxelinux.cfg:/tftpboot/pxelinux.cfg:ro \
+      -v /path/to/your/bootfiles:/tftpboot/site:ro \
+      --add-host some-host.example.com:10.0.0.1 \
       jumanjiman/hooktftp
 
 

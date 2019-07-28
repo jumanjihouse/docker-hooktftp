@@ -39,6 +39,12 @@ load functions
   [ ${status} -eq 0 ]
 }
 
+@test "downloads a file from a host in /etc/hosts" {
+  tftp_get internal.example.com memdisk
+  run docker-compose run --rm test -s /home/user/memdisk
+  [ ${status} -eq 0 ]
+}
+
 @test "hooktftp server log is meaningful" {
   run docker-compose logs tftpd
   [[ ${output} =~ 'Reading hooks' ]]

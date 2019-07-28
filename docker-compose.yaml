@@ -62,6 +62,8 @@ services:
       - downloads
     networks:
       testnet:
+    extra_hosts:
+      - internal.example.com:192.168.254.254
 
   test:
     image: ${BASE_IMAGE}
