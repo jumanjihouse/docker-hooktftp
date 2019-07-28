@@ -2,33 +2,23 @@
 set -e
 
 cat >ci/vars <<EOF
-BASE_IMAGE='alpine:3.9'
-VCS_REF="$(git rev-parse --short HEAD)"
-TAG="$(date +%Y%m%dT%H%M)-git-\${VCS_REF}"
+export BASE_IMAGE='alpine:3.10.1'
+export BUILD_DATE="$(date +%Y%m%dT%H%M)"
+export VCS_REF="$(git rev-parse --short HEAD)"
+export TAG="$(date +%Y%m%dT%H%M)-git-\${VCS_REF}"
 
 # # This can be a commit or any other git treeish.
-HOOKTFTP_VERSION="8736c5fade98b7bd589d50936ab1ccd41a52eaaa"
+export HOOKTFTP_VERSION="8736c5fade98b7bd589d50936ab1ccd41a52eaaa"
 EOF
 
 . ci/functions
 . ci/vars
 
-info "Build a tiny runtime image with hooktftp static binary."
-pushd src/alpine/builder
-run docker build \
-  --rm \
-  --build-arg BASE_IMAGE="${BASE_IMAGE}" \
-  --build-arg HOOKTFTP_VERSION="${HOOKTFTP_VERSION}" \
-  -t hooktftp-runtime .
-popd
+info "Build images."
+run docker-compose build
 
-info "Build a fixtures images that we use to test."
-run docker build --rm -t hooktftp-fixtures fixtures/
-
-info "Build a tiny tftp client image that we use to test."
-pushd src/alpine/client
-run docker build --rm --build-arg BASE_IMAGE="${BASE_IMAGE}" -t tftp .
-popd
+info "Show image labels."
+docker inspect hooktftp-runtime | jq -M '.[].Config.Labels'
 
 info "Show image sizes."
 docker images | grep -E '^(hooktftp|tftp)\b'

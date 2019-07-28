@@ -6,26 +6,32 @@ fail_fast: false
 
 repos:
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 1.8.0
+    rev: 1.11.0
     hooks:
       - id: check-mailmap
       - id: forbid-binary
         exclude: ^assets/rubygems-workflow.png$
       - id: git-check  # Configure in .gitattributes
       - id: git-dirty  # Configure in .gitignore
+      - id: markdownlint
+      - id: require-ascii
+        exclude: ^ci/ansi$
+      - id: script-must-have-extension
+        exclude: ^test/functions.bash$
+      - id: script-must-not-have-extension
       - id: shellcheck
         exclude: ^ci/ansi$
       - id: shfmt
         exclude: ^ci/ansi$
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.11.1
+    rev: v1.15.0
     hooks:
       - id: yamllint
         args: ['--format', 'parsable', '--strict']
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v1.3.0
+    rev: v2.1.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -37,7 +43,7 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.5
+    rev: v1.1.6
     hooks:
       - id: forbid-crlf
       - id: forbid-tabs
@@ -48,7 +54,7 @@ repos:
           )
 
   - repo: https://github.com/jorisroovers/gitlint
-    rev: v0.10.0
+    rev: v0.11.0
     hooks:
       - id: gitlint
         stages: [commit-msg]

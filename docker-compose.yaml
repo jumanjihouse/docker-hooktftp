@@ -1,0 +1,78 @@
+---
+version: '2.1'
+
+networks:
+  testnet:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.254.0/24
+          gateway: 192.168.254.1
+
+services:
+  # Data container in which to download test files.
+  downloads:
+    image: ${BASE_IMAGE}
+    volumes:
+      - /home/user/
+    command: chown -R 1000:1000 /home/user
+
+  # Data container for fixtures.
+  fixtures:
+    image: hooktftp_fixtures
+    build:
+      context: fixtures/
+      args:
+        - BASE_IMAGE
+
+  tftpd:
+    image: hooktftp-runtime
+    build:
+      context: src/alpine/builder/
+      args:
+        - BASE_IMAGE
+        - BUILD_DATE
+        - CIRCLE_BUILD_URL
+        - HOOKTFTP_VERSION
+        - TAG
+        - VCS_REF
+    networks:
+      testnet:
+        ipv4_address: 192.168.254.254
+    ports:
+      - "69:69/tcp"
+    volumes_from:
+      - fixtures
+    pids_limit: 10
+    cpu_shares: 1023
+    mem_limit: 100m
+    shm_size: 32m
+    stdin_open: true
+    tty: true
+
+  tftp:
+    image: tftp
+    build:
+      context: src/alpine/client/
+      args:
+        - BASE_IMAGE
+    volumes_from:
+      - downloads
+    networks:
+      testnet:
+    extra_hosts:
+      - internal.example.com:192.168.254.254
+
+  test:
+    image: ${BASE_IMAGE}
+    volumes_from:
+      - downloads
+    entrypoint: test
+
+  list_files_in_tftpboot:
+    image: ${BASE_IMAGE}
+    volumes_from:
+      - tftpd
+    command: ls -1 -R /tftpboot/

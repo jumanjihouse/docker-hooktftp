@@ -8,32 +8,20 @@ set -o pipefail
 . test/functions.bash
 
 info 'Run file checks.'
-run pre-commit run --all-files --verbose --hook-stage manual
+run pre-commit run --all-files --hook-stage manual
 
 info "Clean up from previous test runs."
-cids="
-  tftp
-  tftpd
-  downloads
-  fixtures
-"
-for cid in $cids; do
-  run docker_rm "${cid}" || :
-done
+run docker-compose down
 
 info "Create data container in which to download test files."
-run docker create --name downloads -v /home/user "${BASE_IMAGE}" true
-# Ensure the tftp client user has permissions on the volume.
-run docker run --rm --volumes-from downloads "${BASE_IMAGE}" chown -R 1000:1000 /home/user
+run docker-compose up downloads
 
-info "Create data container for fixtures."
-run docker create --name fixtures hooktftp-fixtures true
+info "Start hooktftp server and fixtures container."
+run docker-compose up -d tftpd
 
-info "Start hooktftp server."
-run docker run -d -p 69:69/udp --volumes-from fixtures --name tftpd hooktftp-runtime
-ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' tftpd | tr -d '\r')
-export ip
-info "Server is up at $ip"
+info "List files from /tftpboot."
+run docker-compose run --rm list_files_in_tftpboot
+echo
 
 info "Run BATS tests."
 run bats --tap test/*.bats
