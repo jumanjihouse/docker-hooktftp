@@ -34,6 +34,7 @@ their infrastructure.
 - [Build integrity and docker tags](#build-integrity-and-docker-tags)
 - [How-to](#how-to)
   - [Fetch an already-built image](#fetch-an-already-built-image)
+  - [View image labels](#view-image-labels)
   - [List files in the image](#list-files-in-the-image)
   - [Load NetFilter modules](#load-netfilter-modules)
   - [Configure and run](#configure-and-run)
@@ -66,6 +67,24 @@ Therefore you can `docker pull` a specific tag if you don't want *latest*.
 The runtime image is published as `jumanjiman/hooktftp`.
 
     docker pull jumanjiman/hooktftp
+
+
+### View image labels
+
+Each built image has labels that generally follow http://label-schema.org/
+
+We add a label, `ci-build-url`, that is not currently part of the schema.
+This extra label provides a permanent link to the CI build for the image.
+
+View the ci-build-url label on a built image:
+
+    docker inspect \
+      -f '{{ index .Config.Labels "io.github.jumanjiman.ci-build-url" }}' \
+      jumanjiman/hooktftp
+
+Query all the labels inside a built image:
+
+    docker inspect jumanjiman/hooktftp | jq -M '.[].Config.Labels'
 
 
 ### List files in the image

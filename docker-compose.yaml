@@ -33,7 +33,11 @@ services:
       context: src/alpine/builder/
       args:
         - BASE_IMAGE
+        - BUILD_DATE
+        - CIRCLE_BUILD_URL
         - HOOKTFTP_VERSION
+        - TAG
+        - VCS_REF
     networks:
       testnet:
         ipv4_address: 192.168.254.254

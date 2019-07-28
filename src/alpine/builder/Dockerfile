@@ -66,3 +66,23 @@ VOLUME /tftpboot
 COPY passwd /etc/passwd
 ENTRYPOINT ["/usr/bin/hooktftp"]
 CMD ["-v", "/etc/hooktftp/hooktftp.yml"]
+
+ARG CIRCLE_BUILD_URL
+ARG BUILD_DATE
+ARG HOOKTFTP_VERSION
+ARG VCS_REF
+ARG TAG
+
+LABEL \
+    io.github.jumanjiman.ci-build-url="${CIRCLE_BUILD_URL}" \
+    io.github.jumanjiman.upstream-url="https://github.com/tftp-go-team/hooktftp/commit/${HOOKTFTP_VERSION}" \
+    org.label-schema.name="jumanjiman/hooktftp" \
+    org.label-schema.description="Hook based tftp server written in Go (golang)" \
+    org.label-schema.url="https://github.com/jumanjihouse/docker-hooktftp" \
+    org.label-schema.vcs-url="https://github.com/jumanjihouse/docker-hooktftp.git" \
+    org.label-schema.docker.dockerfile="/src/alpine/builder/Dockerfile" \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.license="https://github.com/jumanjihouse/docker-hooktftp/blob/master/LICENSE" \
+    org.label-schema.build-date="${BUILD_DATE}" \
+    org.label-schema.vcs-ref="${VCS_REF}" \
+    org.label-schema.version="${TAG}"
