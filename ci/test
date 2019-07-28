@@ -8,7 +8,7 @@ set -o pipefail
 . test/functions.bash
 
 info 'Run file checks.'
-run pre-commit run --all-files --verbose --hook-stage manual
+run pre-commit run --all-files --hook-stage manual
 
 info "Clean up from previous test runs."
 cids="

@@ -1,5 +1,4 @@
-hooktftp in a container!
-========================
+# hooktftp in a container
 
 This source is used to build an image for
 [hooktftp](https://github.com/tftp-go-team/hooktftp).
@@ -7,10 +6,10 @@ This source is used to build an image for
 Project URL: [https://github.com/jumanjihouse/docker-hooktftp](https://github.com/jumanjihouse/docker-hooktftp)<br/>
 Registry: [https://registry.hub.docker.com/u/jumanjiman/hooktftp/](https://registry.hub.docker.com/u/jumanjiman/hooktftp/)
 
-[![](https://images.microbadger.com/badges/image/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
-[![](https://images.microbadger.com/badges/version/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp "View on microbadger.com")&nbsp;
-[![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/hooktftp.svg)](https://registry.hub.docker.com/u/jumanjiman/hooktftp 'View on docker hub')&nbsp;
-[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?style=svg&circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master 'View CI builds')
+[![](https://images.microbadger.com/badges/image/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp)&nbsp;
+[![](https://images.microbadger.com/badges/version/jumanjiman/hooktftp.svg)](https://microbadger.com/images/jumanjiman/hooktftp)&nbsp;
+[![Docker Registry](https://img.shields.io/docker/pulls/jumanjiman/hooktftp.svg)](https://registry.hub.docker.com/u/jumanjiman/hooktftp)&nbsp;
+[![Circle CI](https://circleci.com/gh/jumanjihouse/docker-hooktftp.png?style=svg&circle-token=5bf142a4f054bf78f7abd3f9f2ab553d054de414)](https://circleci.com/gh/jumanjihouse/docker-hooktftp/tree/master)
 
 The primary artifact is a docker image with the `hooktftp` binary
 and a default, minimal configuration.
@@ -34,20 +33,19 @@ their infrastructure.
 
 - [Build integrity and docker tags](#build-integrity-and-docker-tags)
 - [How-to](#how-to)
-    - [Fetch an already-built image](#fetch-an-already-built-image)
-    - [List files in the image](#list-files-in-the-image)
-    - [Load NetFilter modules](#load-netfilter-modules)
-    - [Configure and run](#configure-and-run)
-    - [Use systemd for automatic startup](#use-systemd-for-automatic-startup)
-    - [Build](#build)
-    - [Test](#test)
-    - [Publish to a private registry](#publish-to-a-private-registry)
+  - [Fetch an already-built image](#fetch-an-already-built-image)
+  - [List files in the image](#list-files-in-the-image)
+  - [Load NetFilter modules](#load-netfilter-modules)
+  - [Configure and run](#configure-and-run)
+  - [Use systemd for automatic startup](#use-systemd-for-automatic-startup)
+  - [Build](#build)
+  - [Test](#test)
+  - [Publish to a private registry](#publish-to-a-private-registry)
 - [Contribute](#contribute)
 - [License](#license)
 
 
-Build integrity and docker tags
--------------------------------
+## Build integrity and docker tags
 
 An unattended test harness runs the build script and acceptance tests.
 If all tests pass on master branch in the unattended test harness,
@@ -61,8 +59,7 @@ The CI scripts apply two tags before pushing to docker hub:
 Therefore you can `docker pull` a specific tag if you don't want *latest*.
 
 
-How-to
-------
+## How-to
 
 ### Fetch an already-built image
 
@@ -165,7 +162,8 @@ On a docker host, run:
 
     ci/test
 
-You can also test via the docker remote API if you have configured a remote docker host:
+You can also test via the docker remote API
+if you have configured a remote docker host:
 
     export DOCKER_HOST=tcp://<remote_ip>:<port>
     ci/build
@@ -234,13 +232,11 @@ You can push the built image to a private docker registry:
     docker push registry_id/your_id/hooktftp
 
 
-Contribute
-----------
+## Contribute
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) in this repo.
 
 
-License
--------
+## License
 
 See [`LICENSE`](LICENSE) in this repo.

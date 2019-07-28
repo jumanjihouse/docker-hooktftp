@@ -36,7 +36,7 @@ ARG HOOKTFTP_VERSION
 ENV HOOKTFTP_VERSION="${HOOKTFTP_VERSION}"
 
 USER user
-RUN /home/user/build.sh
+RUN /home/user/build
 
 ################################################################################
 # Runtime image.
