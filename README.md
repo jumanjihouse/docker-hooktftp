@@ -92,11 +92,12 @@ Query all the labels inside a built image:
 
 The image contains the typical syslinux, efi, and pxelinux files
 from **syslinux** at `/tftpboot/`.
-List them with:
+However, the image is built from scratch, so
+the image does not have typical shell utilities.
+List the files with:
 
-    docker run --rm -t \
-      --entrypoint=/bin/sh \
-      jumanjiman/hooktftp -c "find /tftpboot -type f"
+    ci/build
+    docker-compose run --rm list_files_in_tftpboot
 
 
 ### Load NetFilter modules
