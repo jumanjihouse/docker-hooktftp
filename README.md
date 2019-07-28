@@ -74,7 +74,7 @@ The runtime image is published as `jumanjiman/hooktftp`.
 ### List files in the image
 
 The image contains the typical syslinux, efi, and pxelinux files
-from **syslinux 6.0.3** at `/tftpboot/`.
+from **syslinux** at `/tftpboot/`.
 List them with:
 
     docker run --rm -t \

@@ -2,7 +2,7 @@
 set -e
 
 cat >ci/vars <<EOF
-BASE_IMAGE='alpine:3.9'
+BASE_IMAGE='alpine:3.10.1'
 VCS_REF="$(git rev-parse --short HEAD)"
 TAG="$(date +%Y%m%dT%H%M)-git-\${VCS_REF}"
 
