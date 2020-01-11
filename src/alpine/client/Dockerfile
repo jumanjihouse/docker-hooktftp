@@ -1,5 +1,4 @@
-ARG BASE_IMAGE
-FROM ${BASE_IMAGE}
+FROM base_image
 
 # Install dependencies.
 RUN apk add --no-cache tftp-hpa

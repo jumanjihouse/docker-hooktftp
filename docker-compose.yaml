@@ -12,9 +12,14 @@ networks:
           gateway: 192.168.254.1
 
 services:
+  base_image:
+    image: base_image
+    build:
+      context: src/alpine/base/
+
   # Data container in which to download test files.
   downloads:
-    image: ${BASE_IMAGE}
+    image: base_image
     volumes:
       - /home/user/
     command: chown -R 1000:1000 /home/user
@@ -24,15 +29,12 @@ services:
     image: hooktftp_fixtures
     build:
       context: fixtures/
-      args:
-        - BASE_IMAGE
 
   tftpd:
     image: hooktftp-runtime
     build:
       context: src/alpine/builder/
       args:
-        - BASE_IMAGE
         - BUILD_DATE
         - CIRCLE_BUILD_URL
         - HOOKTFTP_VERSION
@@ -56,8 +58,6 @@ services:
     image: tftp
     build:
       context: src/alpine/client/
-      args:
-        - BASE_IMAGE
     volumes_from:
       - downloads
     networks:
@@ -66,13 +66,13 @@ services:
       - internal.example.com:192.168.254.254
 
   test:
-    image: ${BASE_IMAGE}
+    image: base_image
     volumes_from:
       - downloads
     entrypoint: test
 
   list_files_in_tftpboot:
-    image: ${BASE_IMAGE}
+    image: base_image
     volumes_from:
       - tftpd
     command: ls -1 -R /tftpboot/

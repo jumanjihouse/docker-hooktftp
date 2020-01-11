@@ -1,5 +1,4 @@
-ARG BASE_IMAGE
-FROM ${BASE_IMAGE} as builder
+FROM base_image as builder
 
 RUN apk add --no-cache \
       busybox-extras \
