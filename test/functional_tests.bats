@@ -5,7 +5,7 @@ load functions
   [[ ${output} =~ 'Dropped privileges' ]]
 
   cid=$(docker-compose ps -q tftpd)
-  docker run --rm -it --pid container:${cid} --network container:${cid} "${BASE_IMAGE}" ps -o pid,user,group,comm |
+  docker run --rm -it --pid container:${cid} --network container:${cid} base_image ps -o pid,user,group,comm |
   grep -E '1 1000     1000     hooktftp'
 }
 

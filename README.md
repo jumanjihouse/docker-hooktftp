@@ -225,9 +225,9 @@ Output from `ci/test` resembles:
     [RUN] docker_rm fixtures
 
     ===> Create data container in which to download test files.
-    [RUN] docker create --name downloads -v /home/user ${BASE_IMAGE} true
+    [RUN] docker create --name downloads -v /home/user base_image true
     19d787a81fa8cc3d68fdd97f0d7fa85d2d3f95fadcd144e52f47aafda74fb763
-    [RUN] docker run --rm --volumes-from downloads ${BASE_IMAGE} chown -R 1000:1000 /home/user
+    [RUN] docker run --rm --volumes-from downloads base_image chown -R 1000:1000 /home/user
 
     ===> Create data container for fixtures.
     [RUN] docker create --name fixtures hooktftp-fixtures true
